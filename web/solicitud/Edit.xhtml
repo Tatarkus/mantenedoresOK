@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SolicitudEditDlg" widgetVar="SolicitudEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditSolicitudTitle}">
+            <h:form id="SolicitudEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{solicitudController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditSolicitudLabel_idsolicitud}" for="idsolicitud" />
+                        <p:inputText id="idsolicitud" value="#{solicitudController.selected.idsolicitud}" title="#{bundle.EditSolicitudTitle_idsolicitud}" required="true" requiredMessage="#{bundle.EditSolicitudRequiredMessage_idsolicitud}"/>
+                        <p:outputLabel value="#{bundle.EditSolicitudLabel_valorinsp}" for="valorinsp" />
+                        <p:inputText id="valorinsp" value="#{solicitudController.selected.valorinsp}" title="#{bundle.EditSolicitudTitle_valorinsp}" required="true" requiredMessage="#{bundle.EditSolicitudRequiredMessage_valorinsp}"/>
+                        <p:outputLabel value="#{bundle.EditSolicitudLabel_descuento}" for="descuento" />
+                        <p:inputText id="descuento" value="#{solicitudController.selected.descuento}" title="#{bundle.EditSolicitudTitle_descuento}" required="true" requiredMessage="#{bundle.EditSolicitudRequiredMessage_descuento}"/>
+                        <p:outputLabel value="#{bundle.EditSolicitudLabel_fechasolicitud}" for="fechasolicitud" />
+                        <p:calendar id="fechasolicitud" pattern="MM/dd/yyyy HH:mm:ss" value="#{solicitudController.selected.fechasolicitud}" title="#{bundle.EditSolicitudTitle_fechasolicitud}" required="true" requiredMessage="#{bundle.EditSolicitudRequiredMessage_fechasolicitud}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditSolicitudLabel_idcliente}" for="idcliente" />
+                        <p:selectOneMenu id="idcliente" value="#{solicitudController.selected.idcliente}" required="true" requiredMessage="#{bundle.EditSolicitudRequiredMessage_idcliente}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{clienteController.itemsAvailableSelectOne}"
+                                           var="idclienteItem"
+                                           itemValue="#{idclienteItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{solicitudController.update}" value="#{bundle.Save}" update="display,:SolicitudListForm:datalist,:growl" oncomplete="handleSubmit(args, 'SolicitudEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="SolicitudEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
